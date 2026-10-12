@@ -8,13 +8,19 @@ on :
 
 jobs:
     semgrep_actions:
-    permission: write-all
-    name: semgrep
-    runs-on: windows-latest | ubuntu-latest | macos-latest
+    permissions: write-all
+    name : Semgrep
+    runs-on: ubuntu-latest
     container:
-      image: returntocorp/semgrep | ubuntu:20.04 | alpine:latest
+      image: returntocorp/semgrep 
     steps:
-    - name: toto
-      uses : actions/checkout@v6 | actions/setup-node@v3 | docker/setup-buildx-action@v2
-      
+    - name: Checkout
+      uses : actions/checkout@v6
+    - name: Run Semgrep analysis
+      run : semgrep scan --sarif --sarif-output=semgrep.sarif --error
+    - name: Upload SARIF file to github
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: semgrep.sarif
+      if: always()
       
