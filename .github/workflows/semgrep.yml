@@ -1,0 +1,20 @@
+name : SAST
+
+on : 
+    push: 
+    workflow_dispatch: 
+    workflow_call: 
+    pull_request: 
+
+jobs:
+    semgrep_actions:
+    permission: write-all
+    name: semgrep
+    runs-on: windows-latest | ubuntu-latest | macos-latest
+    container:
+      image: returntocorp/semgrep | ubuntu:20.04 | alpine:latest
+    steps:
+    - name: toto
+      uses : actions/checkout@v6 | actions/setup-node@v3 | docker/setup-buildx-action@v2
+      
+      
